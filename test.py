@@ -3,17 +3,17 @@ import tkinter
 import random
 
 # constants
-WIDTH = 540
+WIDTH = 600
 HEIGHT = 480
 BG_COLOR = 'white'
 MAIN_BALL_COLOR = 'blue'
 MAIN_BALL_RADIUS = 25
 BAD_COLOR = 'red'
-COLORS = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse', BAD_COLOR]
+#COLORS = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse', BAD_COLOR]
 NUM_OF_BALLS = 9
 MAX_RADIUS = 35
 MIN_RADIUS = 15
-DELAY = 8
+DELAY = 1
 INIT_DX = 1
 INIT_DY = 1
 ZERO = 0
@@ -31,7 +31,7 @@ class Ball():
 
     def draw(self):
         canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=self.color,
-                           outline=self.color if self.color != BAD_COLOR else 'black')
+                           outline=self.color)
 
     def hide(self):
         canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=BG_COLOR,
@@ -51,18 +51,18 @@ class Ball():
         # ther balls collision
         for ball in balls:
             if self.is_collision(ball):
-                if ball.color != BAD_COLOR:  # not a bad ball
+                # if ball.color != BAD_COLOR:  # not a bad ball
                     ball.hide()
                     balls.remove(ball)
-                    self.dx = -self.dx
-                    self.dy = -self.dy
-                else:  # bad ball
-                    self.dx = self.dy = 0
+                    # self.dx = -self.dx
+                    # self.dy = -self.dy
+                # else:  # bad ball
+                #     self.dx = self.dy = 0
         self.hide()
         self.x += self.dx
         self.y += self.dy
-        if self.dx * self.dy != 0:
-            self.draw()
+        # if self.dx * self.dy != 0:
+        self.draw()
 
 
 # process the mouse events
@@ -95,7 +95,7 @@ def create_list_of_balls(number):
         next_ball = Ball(random.choice(range(MAX_RADIUS, WIDTH - MAX_RADIUS)),
                          random.choice(range(MAX_RADIUS, HEIGHT - MAX_RADIUS)),
                          random.choice(range(MIN_RADIUS, MAX_RADIUS)),
-                         random.choice(COLORS))
+                         'red')
         is_collision = False
         for ball in lst:
             if next_ball.is_collision(ball):
@@ -108,19 +108,19 @@ def create_list_of_balls(number):
 
 
 # count the number of bad balls
-def count_bad_balls(list_of_balls):
-    result = 0
-    for ball in list_of_balls:
-        if ball.color == BAD_COLOR:
-            result += 1
-    return result
+# def count_bad_balls(list_of_balls):
+#     result = 0
+#     for ball in list_of_balls:
+#         if ball.color == BAD_COLOR:
+#             result += 1
+#     return result
 
 
 # games main loop
 def main():
     if 'main_ball' in globals():
         main_ball.move()
-        if len(balls) - num_of_bad_balls == 0:
+        if len(balls) == 0:
             canvas.create_text(WIDTH / 2, HEIGHT / 2, text="YOU WON!", font="Arial 20", fill="lime")
             main_ball.dx = main_ball.dy = 0
         elif main_ball.dx * main_ball.dy == 0:
@@ -137,7 +137,7 @@ canvas.bind('<Button-1>', mouse_click)
 canvas.bind('<Button-2>', mouse_click, '+')
 canvas.bind('<Button-3>', mouse_click, '+')
 balls = create_list_of_balls(NUM_OF_BALLS)
-num_of_bad_balls = count_bad_balls(balls)
+# num_of_bad_balls = count_bad_balls(balls)
 if 'main_ball' in globals():  # for restarts
     del main_ball
 main()

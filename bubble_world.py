@@ -21,11 +21,13 @@ canvas.pack()
 #bubble class
 class Bubble():
     def __init__(self, x, y, r, speed):
+        #self.bubble = canvas.create_oval(x-r, y-r, x+r, y+r  ,fill='blue')
         self.x = x
         self.y = y
         self.r = r
         self.dx = speed
         self.dy = speed
+        #self.movement()
         
         
     def create(self):
@@ -54,22 +56,33 @@ class Bubble():
             if self.col_det(bubble):
                 canvas.delete(bubble)
                 bubble_list.remove(bubble)
-                self.hide()
-                r += ri
-                self.create()
-                
+                #self.hide()
+                #r += ri
+                #self.create()
+        self.hide()
+        self.x += self.dx
+        self.y += self.dy
+        if self.dx * self.dy !=0:
+            self.create()   
                 
 def mouse_click(event):
     global player_bubble
         
     if event.num == 1:
-        if player_bubble.dy * player_bubble > 0:
-            player_bubble.dy = -player_bubble.dy
+        if 'player_bubble' not in globals():  # старт
+            player_bubble = Bubble(event.x, event.y, ri, speed)
+            player_bubble.create()
+            #canvas.move(p, speed, speed)
+            #player_bubble.create()
+           # player_bubble.movement()
         else:
-            player_bubble.dx = -player_bubble.dx
+            if player_bubble.dy * player_bubble.dx > 0:
+                player_bubble.dy = -player_bubble.dy
+            else:
+                player_bubble.dx = -player_bubble.dx
                 
     elif event.num == 3:
-        if player_bubble.dy * player_bubble > 0:
+        if player_bubble.dy * player_bubble.dx > 0:
             player_bubble.dx = -player_bubble.dx
         else:
             player_bubble.dy = -player_bubble.dy  
@@ -85,11 +98,11 @@ def creat_bubble_list(number):
         next_bubble.create()
     return lst
     
-# def main():
-#     if 'player_bubble' in globals:
-#         player_bubble.movement()
+def main():
+    if 'player_bubble' in globals:
+        player_bubble.movement()
             
-#     tk.after(delay, main)
+    tk.after(delay, main)
     
 # root = tk.Tk()
 #     root.title('Bubble World')
@@ -99,7 +112,7 @@ canvas.bind('<Button-1>', mouse_click)
 canvas.bind('<Button-2>', mouse_click, '+')
 canvas.bind('<Button-3>', mouse_click, '+')      
 bubble_list = creat_bubble_list(n)
-# main()  
+main()  
 # if 'player_bubble' in globals():  # for restarts
 #     del player_bubble      
 # bubble = Bubble(100, 300, r, 4)
