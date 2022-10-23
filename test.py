@@ -10,13 +10,29 @@ MAIN_BALL_COLOR = 'blue'
 MAIN_BALL_RADIUS = 25
 BAD_COLOR = 'red'
 #COLORS = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse', BAD_COLOR]
-NUM_OF_BALLS = 9
+#NUM_OF_BALLS = 9
 MAX_RADIUS = 35
 MIN_RADIUS = 15
 DELAY = 1
 INIT_DX = 1
 INIT_DY = 1
 ZERO = 0
+
+
+
+root = tkinter.Tk()
+root.title("Colliding Balls")
+canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
+canvas.pack()
+
+e = tkinter.IntVar()
+e = tkinter.Entry(root, width=50, textvariable=e)
+#e.pack()
+#e.insert(0, 'Enter Number of Balls')
+
+
+# n = e.get()
+# NUM_OF_BALLS = int(n)
 
 
 # ball class
@@ -28,6 +44,10 @@ class Ball():
         self.color = color
         self.dx = dx
         self.dy = dy
+        # self.entry_num = tkinter.IntVar()
+        # tkinter.Entry(self, textvariable=self.entry_num )
+        # tkinter.Button(self, text="Apply Number", command=self.create_list_of_balls)
+        
 
     def draw(self):
         canvas.create_oval(self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r, fill=self.color,
@@ -89,7 +109,8 @@ def mouse_click(event):
 
 
 # create a list of objects-balls
-def create_list_of_balls(number):
+def create_list_of_balls():
+    number = e.get()
     lst = []
     while len(lst) < number:
         next_ball = Ball(random.choice(range(MAX_RADIUS, WIDTH - MAX_RADIUS)),
@@ -118,6 +139,7 @@ def create_list_of_balls(number):
 
 # games main loop
 def main():
+    #NUM_OF_BALLS = e.get()
     if 'main_ball' in globals():
         main_ball.move()
         if len(balls) == 0:
@@ -129,16 +151,13 @@ def main():
 
 
 # create a window, the canvas and start game
-root = tkinter.Tk()
-root.title("Colliding Balls")
-canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
-canvas.pack()
+
 canvas.bind('<Button-1>', mouse_click)
 canvas.bind('<Button-2>', mouse_click, '+')
 canvas.bind('<Button-3>', mouse_click, '+')
-balls = create_list_of_balls(NUM_OF_BALLS)
+balls = create_list_of_balls()
 # num_of_bad_balls = count_bad_balls(balls)
 if 'main_ball' in globals():  # for restarts
     del main_ball
-main()
+#main()
 root.mainloop()
