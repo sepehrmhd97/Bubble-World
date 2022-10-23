@@ -10,7 +10,7 @@ MAIN_BALL_COLOR = 'blue'
 MAIN_BALL_RADIUS = 25
 BAD_COLOR = 'red'
 #COLORS = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse', BAD_COLOR]
-#NUM_OF_BALLS = 9
+NUM_OF_BALLS = 9
 MAX_RADIUS = 35
 MIN_RADIUS = 15
 DELAY = 1
@@ -20,13 +20,10 @@ ZERO = 0
 
 
 
-root = tkinter.Tk()
-root.title("Colliding Balls")
-canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
-canvas.pack()
 
-e = tkinter.IntVar()
-e = tkinter.Entry(root, width=50, textvariable=e)
+
+# e = tkinter.IntVar()
+# e = tkinter.Entry(root, width=50, textvariable=e)
 #e.pack()
 #e.insert(0, 'Enter Number of Balls')
 
@@ -69,6 +66,7 @@ class Ball():
         if (self.y + self.r + self.dy >= HEIGHT) or (self.y - self.r + self.dy <= ZERO):
             self.dy = -self.dy
         # ther balls collision
+        #balls = create_list_of_balls()
         for ball in balls:
             if self.is_collision(ball):
                 # if ball.color != BAD_COLOR:  # not a bad ball
@@ -110,22 +108,23 @@ def mouse_click(event):
 
 # create a list of objects-balls
 def create_list_of_balls():
-    number = e.get()
-    lst = []
-    while len(lst) < number:
+    number = int(e.get())
+    global balls
+    balls = []
+    while len(balls) < number:
         next_ball = Ball(random.choice(range(MAX_RADIUS, WIDTH - MAX_RADIUS)),
                          random.choice(range(MAX_RADIUS, HEIGHT - MAX_RADIUS)),
                          random.choice(range(MIN_RADIUS, MAX_RADIUS)),
                          'red')
         is_collision = False
-        for ball in lst:
+        for ball in balls:
             if next_ball.is_collision(ball):
                 is_collision = True
                 break
         if not is_collision:
-            lst.append(next_ball)
+            balls.append(next_ball)
             next_ball.draw()
-    return lst
+    return balls
 
 
 # count the number of bad balls
@@ -139,7 +138,7 @@ def create_list_of_balls():
 
 # games main loop
 def main():
-    #NUM_OF_BALLS = e.get()
+    #balls = create_list_of_balls()
     if 'main_ball' in globals():
         main_ball.move()
         if len(balls) == 0:
@@ -151,13 +150,28 @@ def main():
 
 
 # create a window, the canvas and start game
-
-canvas.bind('<Button-1>', mouse_click)
-canvas.bind('<Button-2>', mouse_click, '+')
-canvas.bind('<Button-3>', mouse_click, '+')
-balls = create_list_of_balls()
-# num_of_bad_balls = count_bad_balls(balls)
-if 'main_ball' in globals():  # for restarts
-    del main_ball
-#main()
-root.mainloop()
+if __name__ == "__main__":
+    
+    root = tkinter.Tk()
+    root.title("Colliding Balls")
+    canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
+    canvas.pack()
+    
+    e = tkinter.Entry(root, width=10)
+    e.pack()
+    
+    button_1 = tkinter.Button(root, text="Start", command= create_list_of_balls)
+    button_1.pack()
+    
+    button_2 = tkinter.Button(root, text="Start 2", command= main)
+    button_2.pack()
+    
+    canvas.bind('<Button-1>', mouse_click)
+    canvas.bind('<Button-2>', mouse_click, '+')
+    canvas.bind('<Button-3>', mouse_click, '+')
+    
+    # # num_of_bad_balls = count_bad_balls(NUM_OF_BALLS)
+    # if 'main_ball' in globals():  # for restarts
+    #     del main_ball
+    # main()
+    root.mainloop()
