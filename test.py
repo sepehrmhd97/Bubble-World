@@ -133,7 +133,9 @@ def create_list_of_balls():
 #         if ball.color == BAD_COLOR:
 #             result += 1
 #     return result
-
+def restart():
+    canvas.delete('all')
+    return
 
 
 def main():
@@ -172,6 +174,7 @@ if __name__ == "__main__":
     button_b.pack()
     
     Button_c = tkinter.Button(root, text="Quit", command=root.destroy).pack()
+    Button_d = tkinter.Button(root, text="Restart", command=restart).pack()
     
     canvas.bind('<Button-1>', mouse_click)
     canvas.bind('<Button-2>', mouse_click, '+')
