@@ -13,7 +13,7 @@ BAD_COLOR = 'red'
 NUM_OF_BALLS = 9
 MAX_RADIUS = 35
 MIN_RADIUS = 15
-DELAY = 1
+#DELAY = 1
 INIT_DX = 1
 INIT_DY = 1
 ZERO = 0
@@ -136,8 +136,9 @@ def create_list_of_balls():
 #     return result
 
 
-# games main loop
+
 def main():
+    DELAY = d.get()
     #balls = create_list_of_balls()
     if 'main_ball' in globals():
         main_ball.move()
@@ -149,21 +150,26 @@ def main():
     root.after(DELAY, main)
 
 
-# create a window, the canvas and start game
+
 if __name__ == "__main__":
     
     root = tkinter.Tk()
-    root.title("Colliding Balls")
+    root.title("A Game for Dummies")
     canvas = tkinter.Canvas(root, width=WIDTH, height=HEIGHT, bg=BG_COLOR)
     canvas.pack()
     
-    e = tkinter.Entry(root, width=10)
+    e = tkinter.Entry(root, width=20)
     e.pack()
+    e.insert(0, "Number of Balls")
     
-    button_1 = tkinter.Button(root, text="Start", command= create_list_of_balls)
+    d = tkinter.Entry(root, width=20)
+    d.pack()
+    d.insert(0, "Speed of Simulation")
+    
+    button_1 = tkinter.Button(root, text="Create", command= create_list_of_balls)
     button_1.pack()
     
-    button_2 = tkinter.Button(root, text="Start 2", command= main)
+    button_2 = tkinter.Button(root, text="Start", command= main)
     button_2.pack()
     
     canvas.bind('<Button-1>', mouse_click)
@@ -171,7 +177,7 @@ if __name__ == "__main__":
     canvas.bind('<Button-3>', mouse_click, '+')
     
     # # num_of_bad_balls = count_bad_balls(NUM_OF_BALLS)
-    # if 'main_ball' in globals():  # for restarts
+    # if 'main_ball' in globals(): 
     #     del main_ball
     # main()
     root.mainloop()
