@@ -9,8 +9,7 @@ BG_COLOR = 'white'
 MAIN_BALL_COLOR = 'blue'
 MAIN_BALL_RADIUS = 25
 BAD_COLOR = 'red'
-#COLORS = ['aqua', 'fuchsia', BAD_COLOR, 'pink', 'yellow', BAD_COLOR, 'gold', 'chartreuse', BAD_COLOR]
-NUM_OF_BALLS = 9
+#NUM_OF_BALLS = 9
 MAX_RADIUS = 35
 MIN_RADIUS = 15
 #DELAY = 1
@@ -145,8 +144,8 @@ def main():
         if len(balls) == 0:
             canvas.create_text(WIDTH / 2, HEIGHT / 2, text="YOU WON!", font="Arial 20", fill="lime")
             main_ball.dx = main_ball.dy = 0
-        elif main_ball.dx * main_ball.dy == 0:
-            canvas.create_text(WIDTH / 2, HEIGHT / 2, text="YOU LOSE!", font="Arial 20", fill="red")
+        # elif main_ball.dx * main_ball.dy == 0:
+        #     canvas.create_text(WIDTH / 2, HEIGHT / 2, text="YOU LOSE!", font="Arial 20", fill="red")
     root.after(DELAY, main)
 
 
@@ -166,11 +165,13 @@ if __name__ == "__main__":
     d.pack()
     d.insert(0, "Speed of Simulation")
     
-    button_1 = tkinter.Button(root, text="Create", command= create_list_of_balls)
-    button_1.pack()
+    button_a = tkinter.Button(root, text="Create", command= create_list_of_balls)
+    button_a.pack()
     
-    button_2 = tkinter.Button(root, text="Start", command= main)
-    button_2.pack()
+    button_b = tkinter.Button(root, text="Start", command= main)
+    button_b.pack()
+    
+    Button_c = tkinter.Button(root, text="Quit", command=root.destroy).pack()
     
     canvas.bind('<Button-1>', mouse_click)
     canvas.bind('<Button-2>', mouse_click, '+')
