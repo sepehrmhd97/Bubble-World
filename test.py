@@ -1,3 +1,9 @@
+# Name : Sepehr Mohammadi
+# Presented to: Tom Smedsaas
+
+
+
+
 # game Colliding Balls version 0.5 dated 05 may 2016
 import tkinter
 import random
